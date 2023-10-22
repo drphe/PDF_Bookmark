@@ -1,0 +1,69 @@
+
+body {
+    min-width:430px;
+    min-height: 300px;
+    max-height: 80%;
+    margin-right: 0;
+}
+
+.logo{
+    cursor:pointer
+}
+
+.text-file{
+    color: rgb(231, 110, 110)
+}
+
+.list-button{
+    font-size: 1rem;
+    padding: 1rem;
+}
+.list-group-item{
+    padding: 0.75rem 0.75rem
+}
+
+.card-padding{
+    padding: 0.5rem;
+}
+
+.accordion-btn{
+    padding: 0.25rem;
+    background-color: transparent;
+    text-align: left;
+    border: none;
+    outline:none;
+}
+.accordion-btn:hover{
+    color: rgb(231, 110, 110);
+    text-decoration: underline;
+    border-color: transparent;
+    background-color: transparent;
+    border: none;
+    outline:none;
+}
+.card-header{
+    padding: 0.25rem 0.5rem;
+    border-bottom: none;
+}
+
+.custom-border{
+    border-top: 1px solid rgba(0,0,0,.125);
+}
+.list-group-item{
+    padding: 0.4rem 1rem;
+}
+.btn:focus {
+    box-shadow: none !important;
+  }
+.custom-sort{
+    font-size: 1.1rem;
+}
+.delete-button{
+    color: #fff;
+}
+.noselect{
+    user-select: none;
+}
+.initiallyHidden {
+    display: none;
+}
