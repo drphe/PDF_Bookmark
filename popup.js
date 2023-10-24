@@ -52,98 +52,108 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Creates and stores the bookmark in local storage
     var addBook = document.getElementById("add");
-    addBook.addEventListener("click", function() {
-        add = true;
-        addGroup = false;
-        chrome.tabs.query({
-                active: true,
-                lastFocusedWindow: true,
-                currentWindow: true
-            },
-            function(tabs) {
-                var url = tabs[0].url;
-                // Check if it is a pdf
-                if (url.includes(".pdf")) {
-                    book_name = url.split("/").pop().split(".pdf", 1);
-                    url = url.split("#").shift();
-                    var pageNumber = document.getElementById("pageNumber").value;
-                    var today = new Date();
-                    var creationDate =
-                        today.getDate() +
-                        "-" +
-                        (today.getMonth() + 1) +
-                        "-" +
-                        today.getFullYear();
-                    if (pageNumber == "") {
-                        pageNumber = 0;
-                    }
-                    chrome.storage.sync.get("bookmarks", function(items) {
-                        // If it is empty
-                        if (
-                            items.bookmarks === undefined ||
-                            items.bookmarks === null
-                        ) {
-                            chrome.storage.sync.set({
-                                bookmarks: [{
-                                    book: book_name,
-                                    path: url,
-                                    page: [pageNumber],
-                                    date: [creationDate],
-                                }, ],
-                            });
-                            reloadData();
-                        } else {
-                            // We iterate through all of the bookmarks stored in the JSON object
-                            for (key in items.bookmarks) {
-                                // We check if the bookmark already exists showing a message
-                                if (
-                                    JSON.stringify(items.bookmarks[key].book) ==
-                                    JSON.stringify(book_name)
-                                ) {
-                                    if (!items.bookmarks[key].page.includes(pageNumber)) {
-                                        items.bookmarks[key].date.push(creationDate);
+    addBook.addEventListener("click", addBookmark);
+});
 
-                                        items.bookmarks[key].page.push(pageNumber);
+function alertInfo(x = "Đã thêm Bookmark!") {
+    let div = document.createElement("div");
+    div.setAttribute("style", "max-width: 60%; min-width: 150px; padding: 0px 14px; height: 40px; color: rgb(255, 255, 255); line-height: 40px; text-align: center; border-radius: 4px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 999999; background: rgba(0, 0, 0, 0.7); font-size: 16px; transition: transform 0.5s ease-in 0s, opacity 0.5s ease-in 0s; opacity: 1;");
+    div.innerHTML = x;
+    document.body.appendChild(div);
+    setTimeout(() => {
+        div.style.opacity = 0;
+    }, 500);
+    setTimeout(() => {
+        document.body.removeChild(div);
+    }, 1000);
+}
 
-                                        chrome.storage.sync.set({
-                                            bookmarks: items.bookmarks,
-                                        });
-
-                                        reloadData();
-                                        add = false;
-                                        break;
-                                    } else {
-                                        alert(
-                                            "Bookmark trong tài liệu: " +
-                                            decodeURI(book_name) +
-                                            "\n đã tồn tại rồi!"
-                                        );
-                                        add = false;
-                                        break;
-                                    }
+// add new bookmark
+function addBookmark() {
+    add = true;
+    addGroup = false;
+    chrome.tabs.query({
+            active: true,
+            lastFocusedWindow: true,
+            currentWindow: true
+        },
+        function(tabs) {
+            var url = tabs[0].url;
+            // Check if it is a pdf
+            if (url.includes(".pdf")) {
+                book_name = url.split("/").pop().split(".pdf", 1);
+                url = url.split("#").shift();
+                var pageNumber = document.getElementById("pageNumber").value;
+                var today = new Date();
+                var creationDate =
+                    today.getDate() +
+                    "-" +
+                    (today.getMonth() + 1) +
+                    "-" +
+                    today.getFullYear();
+                if (pageNumber == "") {
+                    pageNumber = 0;
+                }
+                chrome.storage.sync.get("bookmarks", function(items) {
+                    if (items.bookmarks === undefined || items.bookmarks === null) {
+                        chrome.storage.sync.set({
+                            bookmarks: [{
+                                book: book_name,
+                                path: url,
+                                page: [pageNumber],
+                                date: [creationDate],
+                            }, ],
+                        });
+                        reloadData();
+                        alertInfo();
+			console.log('1')
+                    } else {
+                        // We iterate through all of the bookmarks stored in the JSON object
+                        for (key in items.bookmarks) {
+                            // We check if the bookmark already exists showing a message
+                            if (JSON.stringify(items.bookmarks[key].book) == JSON.stringify(book_name)) {
+                                if (!items.bookmarks[key].page.includes(pageNumber)) {
+                                    items.bookmarks[key].date.push(creationDate);
+                                    items.bookmarks[key].page.push(pageNumber);
+                                    chrome.storage.sync.set({
+                                        bookmarks: items.bookmarks,
+                                    });
+                                    reloadData();
+				    alertInfo();
+                                    add = false;
+                                    break;
+                                } else {
+                                    alert(
+                                        "Bookmark trong tài liệu: " +
+                                        decodeURI(book_name) +
+                                        "\n đã tồn tại rồi!"
+                                    );
+                                    add = false;
+                                    break;
                                 }
                             }
-                            if (add) {
-                                items.bookmarks.push({
-                                    book: book_name,
-                                    path: url,
-                                    page: [pageNumber],
-                                    date: [creationDate],
-                                });
-                                chrome.storage.sync.set({
-                                    bookmarks: items.bookmarks,
-                                });
-                                reloadData();
-                            }
                         }
-                    });
-                } else {
-                    alert("Trang hiện tại không phải tài liệu PDF!")
-                }
+                        if (add) {
+                            items.bookmarks.push({
+                                book: book_name,
+                                path: url,
+                                page: [pageNumber],
+                                date: [creationDate],
+                            });
+                            chrome.storage.sync.set({
+                                bookmarks: items.bookmarks,
+                            });
+                            reloadData();
+			    alertInfo();
+                        }
+                    }
+                });
+            } else {
+                alert("Trang hiện tại không phải tài liệu PDF!")
             }
-        );
-    });
-});
+        }
+    );
+}
 
 // Shows all the stored bookmarks when we open the extension
 document.body.onload = function() {
