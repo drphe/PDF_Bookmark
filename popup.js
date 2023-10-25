@@ -1,6 +1,25 @@
 /*================== DATA STRUCTURE ==================  */
 //"bookmarks":[{ book: book_name, path: url, page: [0], date: ["10-10-2010"]  },{ book: book_name, path: url, page: [0,1,2], date: ["10-10-2010"] }]
 document.addEventListener("DOMContentLoaded", function() {
+	// Kiểm tra truy cập file cục bộ
+    let isAllowed = chrome.extension.isAllowedFileSchemeAccess();
+    function logIsAllowed(answer) {
+        let browserInfo = "edge";
+        if (navigator.userAgent.indexOf("Chrome") != -1) {
+            browserInfo = "chrome"
+        } else if (navigator.userAgent.indexOf("Edge") != -1) {
+            browserInfo = "edge";
+        }
+        console.log(`Is allowed: ${answer}`);
+        if (!answer) {
+            alert("Cài đặt extension Cho phép truy cập tệp URL!")
+            chrome.tabs.create({
+                url: browserInfo + "://extensions/?id=" + chrome.runtime.id
+            });
+        }
+    }
+    isAllowed.then(logIsAllowed);
+
     var alpha = document.getElementById("alpha");
     alpha.addEventListener("click", function() {
         if (

@@ -1,7 +1,7 @@
 {
   "name": "PDF Bookmark",
   "author": "Anh Phê",
-   "version": "1.1",
+   "version": "1.2",
   "manifest_version": 3,
   "description": "Công cụ tạo PDF bookmark, lưu vị trí đang đọc để mở nhanh khi cần thiết.",
    "icons": {
