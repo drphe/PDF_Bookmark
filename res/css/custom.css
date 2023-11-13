@@ -2,10 +2,14 @@
 body {
     min-width:430px;
     min-height: 230px;
-    max-height: 80%;
+    max-height: 60%;
     margin-right: 0;
 }
-
+::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+            background: transparent;
+}
 .logo{
     cursor:pointer
 }
