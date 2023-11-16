@@ -1,3 +1,4 @@
+console.log("\n %c " + chrome.runtime.getManifest().name + " extension version: " + chrome.runtime.getManifest().version + ", được viết bởi Anh Phê %c https://facebook.com/phebungphe1995 ", "color: #FFF; background: #222d38; padding:5px 0;background-size: 300% 100%;background-image: linear-gradient(to right, #25aae1, #024fd6, #04befe, #3f86ed);", "color: #FFF; border: 1px solid #8f8f8f;padding:4px 0;");
 /*================== DATA STRUCTURE ==================  */
 //"bookmarks":[{ book: book_name, path: url, page: [0], date: ["10-10-2010"]  },{ book: book_name, path: url, page: [0,1,2], date: ["10-10-2010"] }]
 document.addEventListener("DOMContentLoaded", function() {
