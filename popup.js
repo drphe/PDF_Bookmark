@@ -306,7 +306,7 @@ function reloadData() {
 
 function nameShortener(name) {
     name = String(name);
-    if (name.length > 35) {
+    if (name.length > 25) {
         name =
             name.substring(0, 20) +
             "<b class='text-secondary'>[...]</b>" +
