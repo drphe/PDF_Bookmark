@@ -1,38 +1,40 @@
 {
-  "name": "PDF Bookmark",
-  "author": "Anh Phê",
-   "version": "1.2.3",
-  "manifest_version": 3,
-  "description": "Công cụ tạo PDF bookmark, lưu vị trí đang đọc để mở nhanh khi cần thiết.",
-   "icons": {
-      "128": "res/img/pdf_bookmark_1_128.png",
-      "16": "res/img/pdf_bookmark_1_16.png",
-      "32": "res/img/pdf_bookmark_1_32.png",
-      "48": "res/img/pdf_bookmark_1_48.png"
-   },
-  "permissions": [
-    "storage",
-    "activeTab"
-  ],
- "commands": {
-    "_execute_action": {
-      "suggested_key": {
-        "windows": "Alt+B",
-        "mac": "Command+B"
-      },
-     "description": "Thêm bookmark cho PDF"
-    }
-},
-"background": {
-  "service_worker": "background.js"
-},
-   "action": {
-      "default_icon": "/res/img/pdf_bookmark_1.png",
-      "default_popup": "popup.html",
-      "default_title": "Tạo Bookmark"
-   },
-   "content_scripts": [{
-      "js": [ "content.js" ],
-      "matches": [ "\u003Call_urls>" ]
-   } ]
+    "name": "Bookmark PDF",
+    "author": "Anh Phê",
+    "version": "1.2.4",
+    "manifest_version": 3,
+    "description": "Công cụ tạo Bookmark cho PDF, lưu vị trí đang đọc để mở nhanh khi cần thiết.\n Tìm sách amazon, goodreads từ z-library",
+    "icons": {
+        "128": "res/img/icon128.png",
+        "16": "res/img/icon16.png",
+        "32": "res/img/icon32.png",
+        "48": "res/img/icon48.png"
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "contextMenus"
+    ],
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "windows": "Alt+B",
+                "mac": "Command+B"
+            },
+            "description": "Thêm bookmark cho PDF"
+        }
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_icon": "/res/img/icon128.png",
+        "default_popup": "popup.html",
+        "default_title": "Tạo Bookmark"
+    },
+    "content_scripts": [{
+        "matches": ["\u003Call_urls>"],
+        "include_globs": ["https://www.amazon.*/*", "https://www.goodreads.*/*"],
+        "js": ["contentScript.js"]
+    }]
 }
