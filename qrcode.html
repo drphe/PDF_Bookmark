@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title> Tạo QRCode</title>
+        <style type="text/css">
+        body {
+            margin: auto !important;
+            font-size: 12px;
+        }
+
+        #qrcode {
+            text-align: center;
+        }
+
+        input {
+            font-size: 10px; 
+    	    width:226px!important;
+        }
+
+        p {
+            margin: 0px !important;
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center !important;
+            margin: 0px;
+        }
+
+        .btn:not(:disabled):not(.disabled) {
+            cursor: pointer;
+            color: #212529 !important;
+        }
+
+        [type=button]:not(:disabled),
+        [type=reset]:not(:disabled),
+        [type=submit]:not(:disabled),
+        button:not(:disabled) {
+            cursor: pointer;
+        }
+
+        .align-items-center {
+            -ms-flex-align: center !important;
+            align-items: center !important;
+        }
+
+        .d-inline-flex {
+            display: -ms-inline-flexbox !important;
+            display: inline-flex !important;
+        }
+
+        .btn-group-sm>.btn,
+        .btn-sm {
+            padding: .25rem .5rem;
+            font-size: .875rem;
+            line-height: 1.5;
+            border-radius: .2rem;
+        }
+
+        .btn-light {
+            color: #212529;
+            background-color: #f8f9fa;
+            border-color: #f8f9fa;
+        }
+
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            color: #212529;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: transparent;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 12px;
+            line-height: 1.5;
+            border-radius: .25rem;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        button,
+        select {
+            text-transform: none;
+        }
+
+        .b-icon-download {
+            background-image: url(./icons/download.svg);
+        }
+
+        .ml-2,
+        .mx-2 {
+            margin-left: .5rem !important;
+        }
+
+        .b-icon-clipboard {
+            background-image: url(./icons/clipboard.svg);
+        }
+
+        .b-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            background-size: contain;
+            vertical-align: middle;
+        }
+	.padd {
+		margin:12px;
+		padding:86px;
+	}
+        </style>
+        <link rel="stylesheet" type="text/css" href="./main.css">
+    </head>
+
+    <body>
+        <p id="titletext" style="margin-top: 4px!important;">Quét mã code phía dưới.</p>
+        <div id="qrcode"></div>
+        <p><input type="text" id="QRtext" class="bp3-input" placeholder="Nhập text ở đây!" /></p>
+        <div class="text-center">
+            <button id="downloadQrButton" title="Tải xuống QRcode" type="button" class="btn btn-sm d-inline-flex align-items-center btn-light"><i class="b-icon b-icon-download"></i><span class="ml-2">Download</span>
+            </button>
+            <button id="copyQrButton" title="Lưu vào bộ nhớ tạm" type="button" class="btn btn-sm d-inline-flex align-items-center btn-light"><i class="b-icon b-icon-clipboard"></i><span class="ml-2">Copy</span>
+            </button>
+        </div>
+        <!---<img alt="" id="output">--->
+        <p style="font-size:10px">Copyright by @Phebungphe</p>
+        <script type="text/javascript" src="./qrcode.min.js"></script>
+        <script src="./qrpop.js"></script>
+    </body>
+
+</html>

@@ -6,6 +6,12 @@ chrome.runtime.onInstalled.addListener(() => {
         id: "searchPDF",
         contexts: ["selection"]
     })
+     chrome.contextMenus.create({
+                title: 'Tạo mã QR',
+                type: 'normal',
+                id: 'qrcode',
+                contexts: ['action','page']
+     });
     chrome.contextMenus.create({
         id: "tools",
         title: "Cho phép Copy...",
@@ -38,7 +44,17 @@ chrome.contextMenus.onClicked.addListener(({
         injectContent(0);
     } else if ("nangcao" === menuItemId) {
         injectContent(1);
-    }
+    }else if (menuItemId === 'qrcode') {
+            chrome.windows.create({
+                url: chrome.runtime.getURL("qrcode.html"),
+                width: 300,
+                height: 420,
+                type: "popup",
+                focused: !0,
+                left: 500,
+                top: 100
+            })
+        }
 });
 
 
@@ -87,7 +103,6 @@ async function injectContent(aggressiveMode) {
                         files: jsarr
                     }, function() {
                         console.log("Enable copy Tab: " + tabs[0].title);
-			alert("Enable copy content!")
                     });
             }
         });

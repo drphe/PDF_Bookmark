@@ -279,6 +279,8 @@ chrome.storage.local.get(crStorageNameEnableProduct, function (item) {
             console.log('isAggressiveModeOn', isAggressiveModeOn);
             enableCopy();
           }
+ 	 // alert
+	    alert("Enable copy content!")
         });
         
       }else {
