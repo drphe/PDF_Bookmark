@@ -1,7 +1,7 @@
 {
     "name": "Bookmark PDF",
     "author": "Anh Phê",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "manifest_version": 3,
     "description": "Công cụ tạo Bookmark cho PDF, lưu vị trí đang đọc để mở nhanh khi cần thiết.\n Tìm sách amazon, goodreads từ z-library",
     "icons": {
@@ -13,7 +13,8 @@
     "permissions": [
         "storage",
         "activeTab",
-        "contextMenus"
+        "contextMenus",
+        "scripting"
     ],
     "commands": {
         "_execute_action": {
@@ -41,5 +42,9 @@
         "include_globs": [ "https://translate.google.*/*"],
         "js": ["google.js"],
 	"run_at": "document_start"
-    }]
+    }],
+   "web_accessible_resources": [ {
+      "matches": [ "http://*/*", "https://*/*" ],
+      "resources": [ "/copy/ecp_aggressive.js", "/copy/ecp_regular.js" ]
+   } ]
 }

@@ -6,6 +6,23 @@ chrome.runtime.onInstalled.addListener(() => {
         id: "searchPDF",
         contexts: ["selection"]
     })
+    chrome.contextMenus.create({
+        id: "tools",
+        title: "Cho phép Copy...",
+        contexts: ["action", "page"]
+    })
+    chrome.contextMenus.create({
+        id: "coban",
+        parentId: "tools",
+        title: "Cơ bản",
+        contexts: ["action", "page"]
+    })
+    chrome.contextMenus.create({
+        id: "nangcao",
+        parentId: "tools",
+        title: 'Nâng cao',
+        contexts: ['action', 'page']
+    });
 });
 chrome.contextMenus.onClicked.addListener(({
     menuItemId,
@@ -17,7 +34,10 @@ chrome.contextMenus.onClicked.addListener(({
         chrome.tabs.create({
             url: dest
         });
-
+    } else if ("coban" === menuItemId) {
+        injectContent(0);
+    } else if ("nangcao" === menuItemId) {
+        injectContent(1);
     }
 });
 
@@ -35,3 +55,42 @@ chrome.runtime.onMessage.addListener((req, sender, res) => {
         res({});
     }
 });
+
+// enable copy
+
+async function injectContent(aggressiveMode) {
+    var crStorageNameEnableProduct = "enable_product";
+    var crStorageNameAggressiveMode = "aggressive_mode";
+
+    var newStorageData = {};
+    var jsarr = ["./copy/enable_copy.js"]
+    newStorageData[crStorageNameEnableProduct] = true;
+    newStorageData[crStorageNameAggressiveMode] = aggressiveMode;
+    // set as enabled
+    await chrome.storage.local.set(newStorageData);
+    console.log(newStorageData);
+
+    try {
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        }, function(tabs) {
+            if (tabs.length > 0) {
+                let tabId = tabs[0].id;
+                let tabUrl = tabs[0].url;
+                !tabUrl.startsWith("edge://") && !tabUrl.startsWith("chrome://") &&
+                    !tabUrl.startsWith("chrome-extension://") &&
+                    chrome.scripting.executeScript({
+                        target: {
+                            tabId: tabId
+                        },
+                        files: jsarr
+                    }, function() {
+                        console.log("Enable copy Tab: " + tabs[0].title)
+                    });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
