@@ -91,7 +91,7 @@ function enableCopy() {
     // document.body.onmousedown = null;
     // `;
       
-    var newInlineScriptUrl = chrome.runtime.getURL("/content_script_web_accessible/ecp_aggressive.js");
+    var newInlineScriptUrl = chrome.runtime.getURL("/copy/ecp_aggressive.js");
     console.log("newInlineScriptUrl", newInlineScriptUrl);
     injectScriptDisablePropagateEvent.src = newInlineScriptUrl;
     
@@ -133,7 +133,7 @@ function enableCopy() {
     injectScriptDisablePropagateEvent.type = 'text/javascript';
     document.body.appendChild(injectScriptDisablePropagateEvent);
     
-    var newInlineScriptUrl = chrome.runtime.getURL("/content_script_web_accessible/ecp_regular.js");
+    var newInlineScriptUrl = chrome.runtime.getURL("/copy/ecp_regular.js");
     console.log("newInlineScriptUrl", newInlineScriptUrl);
     injectScriptDisablePropagateEvent.src = newInlineScriptUrl;
     

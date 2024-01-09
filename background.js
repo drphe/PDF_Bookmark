@@ -9,19 +9,19 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         id: "tools",
         title: "Cho phép Copy...",
-        contexts: ["action", "page"]
+        contexts: ["action"]
     })
     chrome.contextMenus.create({
         id: "coban",
         parentId: "tools",
         title: "Cơ bản",
-        contexts: ["action", "page"]
+        contexts: ["action"]
     })
     chrome.contextMenus.create({
         id: "nangcao",
         parentId: "tools",
         title: 'Nâng cao',
-        contexts: ['action', 'page']
+        contexts: ['action']
     });
 });
 chrome.contextMenus.onClicked.addListener(({
@@ -86,7 +86,8 @@ async function injectContent(aggressiveMode) {
                         },
                         files: jsarr
                     }, function() {
-                        console.log("Enable copy Tab: " + tabs[0].title)
+                        console.log("Enable copy Tab: " + tabs[0].title);
+			alert("Enable copy content!")
                     });
             }
         });
