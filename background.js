@@ -29,6 +29,11 @@ chrome.runtime.onInstalled.addListener(() => {
         title: 'Nâng cao',
         contexts: ['action']
     });
+    chrome.contextMenus.create({
+        id: "drive",
+        title: "Download View-Only Google Drive",
+        contexts: ["action"]
+    })
 });
 chrome.contextMenus.onClicked.addListener(({
     menuItemId,
@@ -40,6 +45,8 @@ chrome.contextMenus.onClicked.addListener(({
         chrome.tabs.create({
             url: dest
         });
+    }  else if ("drive" === menuItemId) {
+        getpdf();
     } else if ("coban" === menuItemId) {
         injectContent(0);
     } else if ("nangcao" === menuItemId) {
@@ -103,6 +110,32 @@ async function injectContent(aggressiveMode) {
                         files: jsarr
                     }, function() {
                         console.log("Enable copy Tab: " + tabs[0].title);
+                    });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+async function getpdf() {
+    var jsarr = ["./drive/pdf.js"]
+    try {
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        }, function(tabs) {
+            if (tabs.length > 0) {
+                let tabId = tabs[0].id;
+                let tabUrl = tabs[0].url;
+                !tabUrl.startsWith("edge://") && !tabUrl.startsWith("chrome://") &&
+                    !tabUrl.startsWith("chrome-extension://") &&
+                    chrome.scripting.executeScript({
+                        target: {
+                            tabId: tabId
+                        },
+                        files: jsarr
+                    }, function() {
+                        console.log("Insert drive pdf code: " + tabs[0].title);
                     });
             }
         });
