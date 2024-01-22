@@ -10,8 +10,13 @@ chrome.runtime.onInstalled.addListener(() => {
                 title: 'Tạo mã QR',
                 type: 'normal',
                 id: 'qrcode',
-                contexts: ['action','page']
+                contexts: ['action']
      });
+        chrome.contextMenus.create({
+            id: "youglish",
+            title: "Pronounce on Youglish",
+            contexts: ["selection"]
+        });
     chrome.contextMenus.create({
         id: "tools",
         title: "Cho phép Copy...",
@@ -39,6 +44,15 @@ chrome.contextMenus.onClicked.addListener(({
     menuItemId,
     selectionText
 }) => {
+       "youglish" === menuItemId && (console.log("open popup youglish."), chrome.windows.create({
+        url: "https://drphe.github.io/myquiz/youglish.html?" + selectionText.trim(),// "https://content-media.elsanow.co/_static_/youglish.html?" + selectionText.trim(),
+        width: 625,
+        height: 520,
+        type: "popup",
+        focused: !0,
+        left: 200,
+        top: 100
+    }))
     if (menuItemId === 'searchPDF') {
         var o = selectionText.trim();
         var dest = HOST + encodeURI(o);
@@ -142,4 +156,22 @@ async function getpdf() {
     } catch (error) {
         console.error(error);
     }
+}
+async function createPopup(){
+const [tab] = await chrome.tabs.query ({active: true, currentWindow: true});
+  // Thực thi một hàm để mở popup
+  chrome.scripting.executeScript ({
+    target: {tabId: tab.id},
+    function: openPopup,
+  });
+}
+// Hàm để mở popup
+function openPopup () {
+    myPopup && !myPopup.closed && myPopup.close()
+    myPopup = window.open("", "popup", `width=600,height=500,top=${parseInt((window.screen.height - 500) / 2)},left=${parseInt((window.screen.width - 600) / 2)}`);
+    var html = ``;
+    myPopup.document.write(html);
+    myPopup.document.addEventListener("keyup", function(e) {
+        27 === e.keyCode && (e.preventDefault(), myPopup.close())
+    })
 }
