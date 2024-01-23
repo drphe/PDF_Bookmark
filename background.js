@@ -13,9 +13,9 @@ chrome.runtime.onInstalled.addListener(() => {
                 contexts: ['action']
      });
         chrome.contextMenus.create({
-            id: "youglish",
-            title: "Pronounce on Youglish",
-            contexts: ["selection"]
+            id: "dict",
+           title: "Tra từ điển nhanh",
+            contexts: ["action"]
         });
     chrome.contextMenus.create({
         id: "tools",
@@ -59,6 +59,8 @@ chrome.contextMenus.onClicked.addListener(({
         chrome.tabs.create({
             url: dest
         });
+    }  else if ("dict" === menuItemId) {
+        enableDict();
     }  else if ("drive" === menuItemId) {
         getpdf();
     } else if ("coban" === menuItemId) {
@@ -157,6 +159,38 @@ async function getpdf() {
         console.error(error);
     }
 }
+async function enableDict() {
+    try {
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        }, function(tabs) {
+            if (tabs.length > 0) {
+                let tabId = tabs[0].id;
+                let tabUrl = tabs[0].url;
+                !tabUrl.startsWith("edge://") && !tabUrl.startsWith("chrome://") &&
+                    !tabUrl.startsWith("chrome-extension://") &&
+                    chrome.scripting.executeScript({
+                        target: {
+                            tabId: tabId
+                        },
+                        files:  ["./dict/dict.js"]
+                    }, function() {
+			chrome.scripting.insertCSS({
+                            target: {
+                                tabId: tabId
+                            },
+                            files: ["./dict/style.css"]
+                        });
+                        console.log("Insert dictionary code: " + tabs[0].title);
+                    });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 async function createPopup(){
 const [tab] = await chrome.tabs.query ({active: true, currentWindow: true});
   // Thực thi một hàm để mở popup
