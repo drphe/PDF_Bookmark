@@ -12,11 +12,6 @@ chrome.runtime.onInstalled.addListener(() => {
                 id: 'qrcode',
                 contexts: ['action']
      });
-        chrome.contextMenus.create({
-            id: "dict",
-           title: "Tra từ điển nhanh",
-            contexts: ["action"]
-        });
     chrome.contextMenus.create({
         id: "tools",
         title: "Cho phép Copy...",
@@ -59,8 +54,6 @@ chrome.contextMenus.onClicked.addListener(({
         chrome.tabs.create({
             url: dest
         });
-    }  else if ("dict" === menuItemId) {
-        enableDict();
     }  else if ("drive" === menuItemId) {
         getpdf();
     } else if ("coban" === menuItemId) {
@@ -152,37 +145,6 @@ async function getpdf() {
                         files: jsarr
                     }, function() {
                         console.log("Insert drive pdf code: " + tabs[0].title);
-                    });
-            }
-        });
-    } catch (error) {
-        console.error(error);
-    }
-}
-async function enableDict() {
-    try {
-        chrome.tabs.query({
-            active: true,
-            currentWindow: true
-        }, function(tabs) {
-            if (tabs.length > 0) {
-                let tabId = tabs[0].id;
-                let tabUrl = tabs[0].url;
-                !tabUrl.startsWith("edge://") && !tabUrl.startsWith("chrome://") &&
-                    !tabUrl.startsWith("chrome-extension://") &&
-                    chrome.scripting.executeScript({
-                        target: {
-                            tabId: tabId
-                        },
-                        files:  ["./dict/dict.js"]
-                    }, function() {
-			chrome.scripting.insertCSS({
-                            target: {
-                                tabId: tabId
-                            },
-                            files: ["./dict/style.css"]
-                        });
-                        console.log("Insert dictionary code: " + tabs[0].title);
                     });
             }
         });
