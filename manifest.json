@@ -1,7 +1,7 @@
 {
     "name": "Bookmark PDF",
     "author": "Anh Phê",
-    "version": "1.3.6",
+    "version": "1.3.7",
     "manifest_version": 3,
     "description": "Công cụ tạo Bookmark cho PDF, lưu vị trí đang đọc để mở nhanh khi cần thiết.\n Tìm sách amazon, goodreads từ z-library",
     "icons": {
@@ -14,8 +14,11 @@
         "storage",
         "activeTab",
         "contextMenus",
-        "scripting"
+        "scripting","sidePanel"
     ],
+   "side_panel": {
+      "default_path": "popup.html"
+   },
     "host_permissions": [
         "\u003Call_urls>"
     ],
