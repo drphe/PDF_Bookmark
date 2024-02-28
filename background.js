@@ -171,3 +171,48 @@ function openPopup () {
         27 === e.keyCode && (e.preventDefault(), myPopup.close())
     })
 }
+/////////từ điển
+const rightMenudata = [{
+	id : "lingq",
+	title: "LingQ",
+	contexts: ["action"],
+	link : "https://www.lingq.com/en/learn/en/web/library"
+},{
+	id : "voicetube",
+	title: "Voicetube",
+	contexts: ["action"],
+	link : "https://www.voicetube.com/"
+
+},{
+	id : "engnovate", 
+	title: "Engnovate",
+	contexts: ["action"],
+	link: "https://engnovate.com/learn-videos/"
+
+}];
+function getLink(menuid) {
+  for (let i = 0; i < rightMenudata.length; i++) {
+    if (rightMenudata[i].id === menuid) {
+      return rightMenudata[i].link;
+    }
+  }
+  return null;
+}
+chrome.runtime.onInstalled.addListener(async() =>{
+        chrome.contextMenus.create({
+                title: 'Learn English through Video',
+                type: 'normal',
+                id: 'link',
+                contexts: ["action"]
+         });
+	rightMenudata.forEach(s => chrome.contextMenus.create({
+	    parentId: "link",
+            id: s.id,
+            title: s.title,
+            contexts: s.contexts
+        }));
+});
+chrome.contextMenus.onClicked.addListener(({menuItemId, selectionText}) => {
+	var link = getLink(menuItemId);
+	link && chrome.tabs.create({ url: link})
+});
