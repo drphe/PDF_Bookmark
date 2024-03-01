@@ -12,6 +12,12 @@ chrome.runtime.onInstalled.addListener(() => {
                 id: 'qrcode',
                 contexts: ['action']
      });
+           chrome.contextMenus.create({
+                title: 'Chèn đồng hồ',
+                type: 'normal',
+                id: 'clock',
+                contexts: ['action','page']
+            });	
     chrome.contextMenus.create({
         id: "tools",
         title: "Cho phép Copy...",
@@ -58,6 +64,8 @@ chrome.contextMenus.onClicked.addListener(({
         getpdf();
     } else if ("coban" === menuItemId) {
         injectContent(0);
+    }else if ("clock" === menuItemId) {
+            chenclock();
     } else if ("nangcao" === menuItemId) {
         injectContent(1);
     }else if (menuItemId === 'qrcode') {
@@ -216,3 +224,41 @@ chrome.contextMenus.onClicked.addListener(({menuItemId, selectionText}) => {
 	var link = getLink(menuItemId);
 	link && chrome.tabs.create({ url: link})
 });
+//chèn content.js và watchlist
+chrome.commands.onCommand.addListener(function(command) {
+  if (command === "chenclock") {
+    chenclock();
+  }
+});
+async function chenclock() {
+    var jsarr = ["analogClock.js"]
+    try {
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        }, function(tabs) {
+            if (tabs.length > 0) {
+                let tabId = tabs[0].id;
+                let tabUrl = tabs[0].url;
+                !tabUrl.startsWith("edge://") && !tabUrl.startsWith("chrome://") &&
+                    !tabUrl.startsWith("chrome-extension://") &&
+                    chrome.scripting.executeScript({
+                        target: {
+                            tabId: tabId
+                        },
+                        files: jsarr
+                    }, function() {
+                        chrome.scripting.insertCSS({
+                            target: {
+                                tabId: tabId
+                            },
+                            files: ["./style/clock.css"]
+                        });
+                        console.log("Chèn đồng hồ: " + tabs[0].title);
+                    });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}

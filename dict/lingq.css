@@ -8,12 +8,6 @@ display: none!important;
 .has-radius{
 cursor: pointer;
 }
-.modal .modal-background {
-display:none!important;
-}
-.modal .modal-content.box{
-display: none;
-}
 .review-links-button{
 display:none!important;
 }

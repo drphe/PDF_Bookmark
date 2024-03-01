@@ -1,0 +1,27 @@
+ .handclock{
+    position: absolute;
+    background-color: #ffffff;
+    margin: auto;
+    left: 0;
+    right: 0;
+    border-radius: 5px;
+    transform-origin: bottom;
+}
+#AnalogClock .hour{
+    height: 25px;
+    width: 4px;
+    top: 30px;
+    background-color: rgb(248, 20, 96);
+}
+#AnalogClock .minute{
+    height: 35px;
+    width: 2.5px;
+    top: 20px;
+    background-color: grey;
+}
+#AnalogClock .seconds{
+    height: 40px;
+    width: 1.5px;
+    top: 15px;
+    background-color: #2987e4;
+}
