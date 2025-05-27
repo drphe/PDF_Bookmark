@@ -67,6 +67,6 @@
     }],
    "web_accessible_resources": [ {
       "matches": [ "http://*/*", "https://*/*" ],
-      "resources": [ "/copy/ecp_aggressive.js", "/copy/ecp_regular.js","background-clock.png" ]
+      "resources": [ "/copy/ecp_aggressive.js", "/copy/ecp_regular.js","background-clock.png"]
    } ]
 }
